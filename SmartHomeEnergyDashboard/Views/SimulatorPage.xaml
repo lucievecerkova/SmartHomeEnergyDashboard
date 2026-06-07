@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dtos="clr-namespace:SmartHomeEnergyDashboard.DTOs"
+             xmlns:vm="clr-namespace:SmartHomeEnergyDashboard.ViewModels"
+             x:Class="SmartHomeEnergyDashboard.Views.SimulatorPage"
+             x:DataType="vm:SimulatorViewModel">
+
+
+    <ScrollView>
+    <VerticalStackLayout Grid.Row="0" Spacing="10" Padding="10" BackgroundColor="{Binding BgColor}">
+        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="10" HorizontalOptions="Fill">
+            <Button Grid.Column="0"
+                Text="{Binding SimulationButtonText}"
+                Command="{Binding ToggleSimulationCommand}"
+                BackgroundColor="{Binding SimulationButtonColor}"
+                TextColor="White"
+                FontSize="18"
+                CornerRadius="10"
+                HeightRequest="60" />
+            <Button Grid.Column="1"
+                Text="Reset"
+                Command="{Binding ResetCommand}"
+                BackgroundColor="#0965c8"
+                TextColor="White"
+                FontSize="18"
+                CornerRadius="10"
+                HeightRequest="60" />
+            <Button Grid.Column="2"
+                Text="Save Log History"
+                Command="{Binding ExportToJsonCommand}"
+                BackgroundColor="{Binding SaveColor}"
+                TextColor="White"
+                FontSize="18"
+                CornerRadius="10"
+                HeightRequest="60" />
+        </Grid>
+
+        <Frame BackgroundColor="#f0f0f0" CornerRadius="10" HasShadow="True">
+            <Grid ColumnDefinitions="*,*">
+                <HorizontalStackLayout Grid.Column="0" HorizontalOptions="Center" Spacing="5">
+                    <Label Text="Simulated Time:" FontAttributes="Bold" FontSize="18"/>
+                    <Label Text="{Binding SimulationService.SimulatedHour, StringFormat='{0}:00'}" 
+                           FontSize="18" 
+                           TextColor="#0965c8"/>
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="5">
+                    <Label Text="Record count:" FontAttributes="Bold" FontSize="18"/>
+                    <Label Text="{Binding HistoryCountDisplay}" 
+                        FontSize="18" 
+                        TextColor="#0965c8"/>
+                </HorizontalStackLayout>
+            </Grid>
+        </Frame>
+
+            <Grid ColumnDefinitions="*, *" 
+                HeightRequest="600" 
+                HorizontalOptions="Fill" >
+                <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" Spacing="5">
+                    <Label Text="{Binding DynamicMaxBattery, StringFormat='Battery capacity: {0} Wh'}" TextColor="{Binding BatteryColor}" FontSize="18"/>
+                    <Slider Minimum="1000" Maximum="20000" Value="{Binding DynamicMaxBattery}" MinimumWidthRequest="400"/>
+
+                    <Label Text="Actual battery percentage:" HorizontalOptions="Center" TextColor="{Binding BatteryColor}" />
+                    <Grid HeightRequest="40" WidthRequest="200">
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="0">
+                            <BoxView WidthRequest="20" HeightRequest="8" Color="{Binding BatteryColor}" CornerRadius="2,2,0,0" />
+                            <Border Stroke="{Binding BatteryColor}" StrokeThickness="3" Padding="2" WidthRequest="120" HeightRequest="240">
+                                <Grid VerticalOptions="End">
+                                    <BoxView Color="#4CAF50"
+                                            HeightRequest="240" 
+                                            ScaleY="{Binding BatteryPercentage}"
+                                            AnchorY="1" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                        <Label Text="{Binding BatteryPercentage, StringFormat='{0:P0}'}" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center" 
+                            TextColor="{Binding BatteryColor}" 
+                            FontSize="18" />
+                    </Grid>
+                </VerticalStackLayout>
+
+                <HorizontalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="5">
+                    <Grid ColumnDefinitions="*, *" 
+                        HeightRequest="600" 
+                        HorizontalOptions="Center" 
+                        WidthRequest="400">
+                        <Image Grid.Column="0"
+                            Source="{Binding Picture}"
+                            HeightRequest="150"
+                            WidthRequest="150"
+                            VerticalOptions="Start" 
+                            HorizontalOptions="Center" />
+                        <Image Grid.Column="1"
+                            Source="house.png"
+                            HeightRequest="400"
+                            WidthRequest="400"
+                            VerticalOptions="End" 
+                            HorizontalOptions="Center" />
+                    </Grid>
+                </HorizontalStackLayout>
+            </Grid>
+
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="10" HorizontalOptions="Fill">
+                <Button Grid.Column="0"
+                    Text="Show actual statistics"
+                    Command="{Binding NavigateToStatisticsCommand}"
+                    HeightRequest="60"
+                    FontSize="18"
+                    BackgroundColor="#053970" />
+                <Button Grid.Column="1"
+                    Text="Go Back To Main Page" 
+                    Command="{Binding GoBackCommand}" 
+                    FontSize="18"
+                    BackgroundColor="#0965c8" 
+                    HeightRequest="60"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

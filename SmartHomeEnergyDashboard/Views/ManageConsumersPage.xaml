@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dtos="clr-namespace:SmartHomeEnergyDashboard.DTOs"
+             xmlns:vm="clr-namespace:SmartHomeEnergyDashboard.ViewModels"
+             x:Class="SmartHomeEnergyDashboard.Views.ManageConsumersPage"
+             x:DataType="vm:ManageConsumersViewModel">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="10" Padding="10" BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#202020}">
+            <Entry Placeholder="Device Name" Text="{Binding InputName}" MaxLength="30" />
+            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                <Picker Grid.Column="0"
+                        Title="Select Type"
+                        ItemsSource="{Binding DeviceTypes}"
+                        SelectedItem="{Binding SelectedType}" />
+
+                <Button Grid.Column="1"
+                        Text="Delete Device Type"
+                        TextColor="White"
+                        BackgroundColor="Red"
+                        FontAttributes="Bold"
+                        CornerRadius="5"
+                        Padding="10"
+                        VerticalOptions="End"
+                        Command="{Binding DeleteDeviceTypeCommand}"
+                        CommandParameter="{Binding SelectedType}" />
+            </Grid>
+
+            <Entry Placeholder="Enter new type name..." 
+                   Text="{Binding CustomTypeName}"
+                   IsVisible="{Binding IsCustomTypeVisible}"
+                   BackgroundColor="#fdfd96"
+                   MaxLength="30" />
+            <Entry Placeholder="Power (W)" Text="{Binding InputPower}" Keyboard="Numeric" MaxLength="8" />
+            <Button Text="{Binding SubmitButtonText}" Command="{Binding SaveDeviceCommand}" BackgroundColor="#053970" />
+            <Button Text="Go Back To Main Page" Clicked="OnBackClicked" BackgroundColor="#0965c8" />
+        </VerticalStackLayout>
+
+        <CollectionView Grid.Row="1" 
+                        ItemsSource="{Binding Devices}" 
+                        SelectionMode="Single" 
+                        SelectedItem="{Binding SelectedDevice}">
+
+            <CollectionView.EmptyView>
+                <Label Text="No devices added yet." HorizontalOptions="Center" VerticalOptions="Center" Margin="20"/>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dtos:ConsumerDTO">
+                    <SwipeView>
+                        <Grid Padding="10" ColumnDefinitions="200, 200, 200, 200, Auto">
+                            <Label Grid.Column="0" Text="{Binding Name}" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                            <Label Grid.Column="1" Text="{Binding Type}" VerticalTextAlignment="Center"/>
+                            <Label Grid.Column="2" Text="{Binding Power, StringFormat='{0} W'}" VerticalTextAlignment="Center"/>
+                            <Button Grid.Column="3" Text="✏️ Edit" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ManageConsumersViewModel}}, Path=EditDeviceCommand}"
+                                    CommandParameter="{Binding .}" 
+                                    BackgroundColor="Transparent"
+                                    TextColor="Orange" />
+                            <Button Grid.Column="4" Text="🗑 Delete" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ManageConsumersViewModel}}, Path=DeleteDeviceCommand}"
+                                    CommandParameter="{Binding .}" 
+                                    BackgroundColor="Transparent"
+                                    TextColor="Red" />
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+    </Grid>
+</ContentPage>

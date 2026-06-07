@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dtos="clr-namespace:SmartHomeEnergyDashboard.DTOs"
+             xmlns:vm="clr-namespace:SmartHomeEnergyDashboard.ViewModels"
+             x:Class="SmartHomeEnergyDashboard.Views.ManageProducersPage"
+             x:DataType="vm:ManageProducersViewModel">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="10" Padding="10" BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#202020}">
+            <Entry Placeholder="Power (W)" Text="{Binding InputPower}" Keyboard="Numeric" MaxLength="8" />
+            <Button Text="Add solar panel" Command="{Binding SaveDeviceCommand}" BackgroundColor="#053970"  />
+            <Button Text="Go Back To Main Page" Clicked="OnBackClicked" BackgroundColor="#0965c8" />
+        </VerticalStackLayout>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Devices}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" 
+                                Span="4"
+                                VerticalItemSpacing="5" 
+                                HorizontalItemSpacing="5"/>   
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dtos:ProducerDTO">
+                    <SwipeView>
+                        <VerticalStackLayout Padding="10" 
+                                             Spacing="5" 
+                                             HorizontalOptions="Center" 
+                                             VerticalOptions="Start">
+                            <Image Source="device_icon.png" 
+                                    WidthRequest="100" 
+                                    HeightRequest="100" 
+                                    Aspect="AspectFit"/>
+                            <Label Text="{Binding Power, StringFormat='{0} W'}" 
+                                    HorizontalTextAlignment="Center" 
+                                    FontSize="12" 
+                                    FontAttributes="Bold"/>
+                            <Button Text="🗑 Delete" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ManageProducersViewModel}}, Path=DeleteDeviceCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="Transparent"
+                                    TextColor="Red"/>
+                        </VerticalStackLayout>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

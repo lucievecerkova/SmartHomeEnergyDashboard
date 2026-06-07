@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="SmartHomeEnergyDashboard.DAL/SmartHomeEnergyDashboard.DAL.csproj" Id="d2e101ad-51ae-4b19-9126-6ce8e4504772" />
+  <Project Path="SmartHomeEnergyDashboard/SmartHomeEnergyDashboard.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>

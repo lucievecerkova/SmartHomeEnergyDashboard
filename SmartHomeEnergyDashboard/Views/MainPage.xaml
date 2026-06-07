@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SmartHomeEnergyDashboard.MainPage"
+             Title="Smart Home Dashboard">
+
+    <VerticalStackLayout VerticalOptions="Center" Spacing="20" Padding="30">
+        <Label Text="Welcome to Energy Dashboard" 
+               FontSize="24" 
+               HorizontalOptions="Center" />
+
+        <Button Text="Manage Devices"
+                Command="{Binding NavigateToManageConsumersCommand}"
+                HeightRequest="60"
+                BackgroundColor="#087cf4" />
+
+        <Button Text="Manage Energy Resources"
+                Command="{Binding NavigateToManageProducersCommand}"
+                HeightRequest="60"
+                BackgroundColor="#0965c8" />
+
+        <Button Text="Show Simulation"
+                Command="{Binding NavigateToSimulationCommand}"
+                HeightRequest="60"
+                BackgroundColor="#074f9c" />
+
+        <Button Text="Show Statistics"
+                Command="{Binding NavigateToStatisticsCommand}"
+                HeightRequest="60"
+                BackgroundColor="#053970" />
+    </VerticalStackLayout>
+</ContentPage>
